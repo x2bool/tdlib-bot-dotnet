@@ -8,9 +8,9 @@ namespace TDBot
 {
 	public class AuthManager
 	{
-		private readonly int _apiId;
-		private readonly string _apiHash;
-		private readonly string _botToken;
+		private readonly int _apiId; // TODO: api id
+		private readonly string _apiHash; // TODO: api hash
+		private readonly string _botToken; // TODO: bot token
 
 		private readonly Agent _agent;
 
