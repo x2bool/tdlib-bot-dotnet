@@ -3,19 +3,30 @@ using System.IO;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Microsoft.Extensions.Configuration;
 using TdLib;
 
 namespace TDBot
 {
 	class Program
 	{
-		private static Agent _agent = new Agent();
-		private static FileLoader _fileLoader = new FileLoader(_agent);
-		private static AuthManager _authManager = new AuthManager(_agent);
-		private static BotLogic _botLogic = new BotLogic(_agent, _fileLoader);
+		private static IConfigurationRoot _config;
+		private static Agent _agent;
+		private static FileLoader _fileLoader;
+		private static AuthManager _authManager;
+		private static BotLogic _botLogic;
 
 		static void Main(string[] args)
 		{
+			_config = new ConfigurationBuilder()
+				.AddJsonFile("appsettings.json")
+				.Build();
+
+			_agent = new Agent();
+			_fileLoader = new FileLoader(_agent);
+			_authManager = new AuthManager(_agent, _config);
+			_botLogic = new BotLogic(_agent, _fileLoader);
+
 			SetupAuth();
 			SetupBot();
 

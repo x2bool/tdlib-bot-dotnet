@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using TdLib;
 
 namespace TDBot
 {
 	public class AuthManager
 	{
-		private readonly int _apiId; // TODO: api id
-		private readonly string _apiHash; // TODO: api hash
-		private readonly string _botToken; // TODO: bot token
+		private readonly int _apiId;
+		private readonly string _apiHash;
+		private readonly string _botToken;
 
 		private readonly Agent _agent;
 
-		public AuthManager(Agent agent)
+		public AuthManager(Agent agent, IConfiguration config)
 		{
 			_agent = agent;
+			_apiId = int.Parse(config["api_id"]);
+			_apiHash = config["api_hash"];
+			_botToken = config["bot_token"];
 		}
 
 		public IObservable<TdApi.Ok> SetupParameters(
